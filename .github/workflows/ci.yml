@@ -12,14 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Output versions
-        run: |
-          ruby --version
-          gem --version
-          bundle --version
-          node --version
-          npm --version
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -29,6 +21,17 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Output versions
+        run: |
+          ruby --version
+          gem --version
+          bundle --version
+          node --version
+          npm --version
+
       - name: Debug bundle environment
         run: |
           gem env
@@ -37,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: |
           gem install bundler
-           bundle install --jobs 4 --retry 3 --verbose
+          bundle install --jobs 4 --retry 3 --verbose
 
       - name: Scan for security vulnerabilities in Ruby dependencies
         run: bin/brakeman --no-pager --debug
@@ -54,6 +57,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Install Bundler
+        run: gem install bundler
 
       - name: Debug bundle environment
         run: |
@@ -79,6 +85,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Install Bundler
+        run: gem install bundler
 
       - name: Debug bundle environment
         run: |
@@ -124,6 +133,9 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      - name: Install Bundler
+        run: gem install bundler
 
       - name: Debug bundle environment
         run: |
