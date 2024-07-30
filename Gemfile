@@ -56,6 +56,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'devise'
-gem 'trix-rails'
-gem 'bundler', '~> 2.5', '>= 2.5.16'
+gem "devise"
+gem "trix-rails"
+gem "bundler", "~> 2.5", ">= 2.5.16"
+gem "rubocop", require: false
+gem "rubocop-rails", require: false
