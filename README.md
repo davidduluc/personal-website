@@ -19,14 +19,14 @@ High Priority:
   - Add meta tags, sitemap, and robots.txt
 - [ ] Set up Google Analytics or similar tracking tool
 - [ ] Add unit tests, integration tests.
-
-Medium Priority:
 - [ ] Implement a contact form
   - Create a new page for the contact form
   - Set up email functionality for form submissions
 - [ ] Add social media links
   - Update footer in `app/views/shared/_footer.html.erb`
 - [ ] Create a resume/CV page
+
+Medium Priority:
 - [ ] Implement a search functionality for blog posts
 - [ ] Set up continuous integration and deployment (CI/CD) pipeline
 - [ ] Write tests for controllers and models
