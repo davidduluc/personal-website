@@ -6,7 +6,7 @@ class CreateActionTextTables < ActiveRecord::Migration[7.1]
 
     create_table :action_text_rich_texts, id: primary_key_type do |t|
       t.string     :name, null: false
-      t.text       :body, size: :long
+      t.text       :body, limit: 1_073_741_823 # 1GB
       t.references :record, null: false, polymorphic: true, index: false, type: foreign_key_type
 
       t.timestamps
