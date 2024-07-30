@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.0.beta2"
+gem "rails", "~> 7.1.3.4"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use postgresql as the database for Active Record
@@ -58,4 +58,4 @@ end
 
 gem 'devise'
 gem 'trix-rails'
-gem 'bundler', '~> 2.4'
+gem 'bundler', '~> 2.5', '>= 2.5.16'
