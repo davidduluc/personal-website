@@ -16,10 +16,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v2
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
 
       - name: Install Bundler
         run: gem install bundler
@@ -39,6 +45,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          gem update --system
           gem install bundler
           bundle install --jobs 4 --retry 3 --verbose
 
@@ -53,10 +60,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v2
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
 
       - name: Install Bundler
         run: gem install bundler
@@ -68,6 +81,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          gem update --system
           gem install bundler
           bundle install --jobs 4 --retry 3 --verbose
 
@@ -81,10 +95,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v2
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
 
       - name: Install Bundler
         run: gem install bundler
@@ -96,6 +116,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          gem update --system
           gem install bundler
           bundle install --jobs 4 --retry 3 --verbose
 
@@ -129,10 +150,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v2
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
 
       - name: Install Bundler
         run: gem install bundler
@@ -144,6 +171,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          gem update --system
           gem install bundler
           bundle install --jobs 4 --retry 3 --verbose
 
