@@ -58,3 +58,4 @@ end
 
 gem 'devise'
 gem 'trix-rails'
+gem 'bundler', '~> 2.4'

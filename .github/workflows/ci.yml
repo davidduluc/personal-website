@@ -18,6 +18,17 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler-version: '2.4.22'  # or whichever version you're using
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
 
       - name: Scan for security vulnerabilities in Ruby dependencies
         run: bin/brakeman --no-pager
@@ -34,6 +45,17 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler-version: '2.4.22'  # or whichever version you're using
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
@@ -49,6 +71,17 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler-version: '2.4.22'  # or whichever version you're using
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
@@ -84,6 +117,17 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler-version: '2.4.22'  # or whichever version you're using
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
 
       - name: Run tests
         env:
