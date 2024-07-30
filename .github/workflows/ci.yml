@@ -1,9 +1,11 @@
 name: CI
+env:
+  ACTIONS_STEP_DEBUG: true
 
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   scan_ruby:
@@ -18,9 +20,37 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Output versions
+        run: |
+          ruby --version
+          gem --version
+          bundle --version
+          node --version
+          npm --version
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem update --system
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --verbose
 
       - name: Scan for security vulnerabilities in Ruby dependencies
-        run: bin/brakeman --no-pager
+        run: bin/brakeman --no-pager --debug
 
   scan_js:
     runs-on: ubuntu-latest
@@ -34,6 +64,26 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem update --system
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --verbose
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
@@ -49,9 +99,29 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem update --system
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --verbose
 
       - name: Lint code for consistent style
-        run: bin/rubocop -f github
+        run: bin/rubocop -f github --extra-details --display-cop-names
 
   test:
     runs-on: ubuntu-latest
@@ -84,12 +154,33 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+          bundler: latest
+
+      - name: Output Ruby and Bundler versions
+        run: |
+          ruby --version
+          bundle --version
+
+      - name: Install Bundler
+        run: gem install bundler
+
+      - name: Debug bundle environment
+        run: |
+          gem env
+          bundle env
+
+      - name: Install dependencies
+        run: |
+          gem update --system
+          gem install bundler
+          bundle install --jobs 4 --retry 3 --verbose
 
       - name: Run tests
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
           # REDIS_URL: redis://localhost:6379/0
+          RUBY_DEBUG: 1
         run: bin/rails db:test:prepare test test:system
 
       - name: Keep screenshots from failed system tests
@@ -99,3 +190,28 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+
+      - name: Check PostgreSQL connection
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres -c '\conninfo'
+
+  validate_commits:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate commit messages
+        env:
+          NODE_DEBUG: '*'
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose

@@ -1,7 +1,6 @@
 require_relative "boot"
 
 require "rails/all"
-require "active_storage/engine"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -10,7 +9,7 @@ Bundler.require(*Rails.groups)
 module PersonalWebsite
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 7.1
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -24,8 +23,5 @@ module PersonalWebsite
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    # Add this line to enable image processing
-    config.active_storage.variant_processor = :mini_magick
   end
 end
