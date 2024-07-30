@@ -1,38 +1,39 @@
 # syntax = docker/dockerfile:1
 
 ARG RUBY_VERSION=3.3.4
-FROM ruby:$RUBY_VERSION
+FROM ruby:$RUBY_VERSION-slim
 
 # Install dependencies
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    nodejs \
+    postgresql-client \
+    libjemalloc2 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
+# Install bundler
+RUN gem install bundler
+
 # Add Gemfile and install gems
 COPY Gemfile Gemfile.lock ./
-RUN bundle install
+RUN bundle install --jobs 4 --retry 3
 
 # Copy the main application
 COPY . .
 
-# Install jemalloc for reduced memory usage and latency
-RUN apt-get update && apt-get install -y libjemalloc2
+# Precompile assets
+RUN SECRET_KEY_BASE=dummy RAILS_ENV=production bundle exec rails assets:precompile
+
+# Enable jemalloc for reduced memory usage and latency
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # Expose port 3000
 EXPOSE 3000
 
-# Set environment variables and run commands based on environment
-ARG RAILS_ENV
-ENV RAILS_ENV=${RAILS_ENV}
-
-CMD bash -c "
-  if [ \"$RAILS_ENV\" = 'production' ]; then
-    bundle exec rails db:migrate;
-  else
-    bundle exec rails db:setup;
-  fi;
-  rm -f tmp/pids/server.pid;
-  bundle exec rails s -p 3000 -b '0.0.0.0'
-"
+# Configure the main process to run when running the image
+CMD ["bash", "-c", "bin/rails db:migrate && bin/rails server -b 0.0.0.0"]
