@@ -16,13 +16,23 @@ RUN bundle install
 # Copy the main application
 COPY . .
 
-# Add a script to be executed every time the container starts
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+# Install jemalloc for reduced memory usage and latency
+RUN apt-get update && apt-get install -y libjemalloc2
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 # Expose port 3000
 EXPOSE 3000
 
-# Configure the main process to run when running the image
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# Set environment variables and run commands based on environment
+ARG RAILS_ENV
+ENV RAILS_ENV=${RAILS_ENV}
+
+CMD bash -c "
+  if [ \"$RAILS_ENV\" = 'production' ]; then
+    bundle exec rails db:migrate;
+  else
+    bundle exec rails db:setup;
+  fi;
+  rm -f tmp/pids/server.pid;
+  bundle exec rails s -p 3000 -b '0.0.0.0'
+"
