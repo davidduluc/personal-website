@@ -1,0 +1,22 @@
+<section class="content-section">
+  <div class="section-title">
+    <h2>blog posts</h2>
+    <div class="line"></div>
+  </div>
+  <div class="work-container">
+    <% @blog_posts.each do |post| %>
+      <div class="card">
+        <%= link_to blog_post_path(post) do %>
+          <div class="card__image">
+            <%= image_tag post.image.present? ? post.image : "https://via.placeholder.com/215", alt: post.title %>
+          </div>
+          <div class="card__content">
+            <h3 class="card__title"><%= post.title %></h3>
+            <div class="card__date"><%= post.published_at.strftime("%B %d, %Y") %></div>
+            <p class="card__description"><%= truncate(post.content.to_plain_text, length: 100) %></p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+<nav class="nav">
+        <div class="nav__logo">David Duluc</div>
+        <div class="nav__hamburger" onclick="toggleMenu()">
+          <span class="nav__hamburger-line"></span>
+          <span class="nav__hamburger-line"></span>
+          <span class="nav__hamburger-line"></span>
+        </div>
+        <div class="nav__menu" id="menu">
+          <%= link_to "Home", root_path, class: "nav__link" %>
+          <%= link_to "Blog", blog_posts_path, class: "nav__link" %>
+          <%= link_to "Projects", projects_path, class: "nav__link" %>
+          <%= link_to "About", about_path, class: "nav__link" %>
+        </div>
+      </nav>
+

@@ -1,0 +1,53 @@
+<section class="hero">
+  <div class="profile-image">
+    <%= image_tag "me.webp", alt: "David Duluc" %>
+  </div>
+  <div class="hero-content">
+    <h1>Hi 👋</h1>
+    <p>I'm David Duluc, a passionate developer creating amazing web experiences. Currently shaping user experiences at XYZ Company.</p>
+    <%= link_to "Say hello!", "#contact", class: "cta-button" %>
+  </div>
+</section>
+
+
+<% if @blog_posts.present? %>
+  <section class="content-section">
+    <div class="section-title">
+      <h2>latest posts</h2>
+      <div class="line"></div>
+      <%= link_to "View all", blog_posts_path %>
+    </div>
+    <div class="work-container">
+      <% @blog_posts.each do |post| %>
+        <%= render 'shared/card', {
+          url: blog_post_path(post),
+          image: post.image.present? ? post.image : "https://via.placeholder.com/215",
+          title: post.title,
+          date: post.published_at.strftime("%B %d, %Y"),
+          description: truncate(post.content.to_plain_text, length: 100)
+        } %>
+      <% end %>
+    </div>
+  </section>
+<% end %>
+
+<% if @projects.present? %>
+  <section class="content-section">
+    <div class="section-title">
+      <h2>projects</h2>
+      <div class="line"></div>
+      <%= link_to "View all", projects_path %>
+    </div>
+    <div class="work-container">
+      <% @projects.each do |project| %>
+        <%= render 'shared/card', {
+          url: project_path(project),
+          image: project.image,
+          title: project.title,
+          date: project.date,
+          description: project.description
+        } %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

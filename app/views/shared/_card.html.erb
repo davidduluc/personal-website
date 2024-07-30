@@ -1,0 +1,14 @@
+<div class="card">
+  <%= link_to url do %>
+    <div class="card__image">
+      <%= image_tag image, alt: title if image.present? %>
+    </div>
+    <div class="card__content">
+      <h3 class="card__title"><%= title %></h3>
+      <% if date.present? %>
+        <div class="card__date"><%= date %></div>
+      <% end %>
+      <p class="card__description"><%= description %></p>
+    </div>
+  <% end %>
+</div>

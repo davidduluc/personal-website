@@ -1,0 +1,11 @@
+# <type>(<scope>): <subject>
+# <BLANK LINE>
+# <body>
+# <BLANK LINE>
+# <footer>
+
+# Types: feat, fix, docs, style, refactor, test, chore
+# Scope: optional, e.g., (ui), (api)
+# Subject: imperative, max 50 chars, capitalize first letter
+# Body: wrap at 72 chars, use to explain what and why (not how)
+# Footer: optional, reference issues, BREAKING CHANGE
