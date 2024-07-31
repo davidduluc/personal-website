@@ -32,8 +32,7 @@ RUN bundle install --jobs 4 --retry 3
 COPY . .
 
 # Precompile assets
-RUN SECRET_KEY_BASE=$RAILS_MASTER_KEY RAILS_ENV=production bundle exec rails assets:precompile
-
+RUN RAILS_MASTER_KEY=$RAILS_MASTER_KEY RAILS_ENV=production bundle exec rails assets:precompile
 # Enable jemalloc for reduced memory usage and latency
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
