@@ -3,6 +3,11 @@
 ARG RUBY_VERSION=3.3.4
 FROM ruby:$RUBY_VERSION-slim
 
+ARG RAILS_MASTER_KEY
+ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+
+FROM ruby:$RUBY_VERSION-slim
+
 # Install dependencies
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
@@ -27,7 +32,7 @@ RUN bundle install --jobs 4 --retry 3
 COPY . .
 
 # Precompile assets
-RUN SECRET_KEY_BASE=dummy RAILS_ENV=production bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=$RAILS_MASTER_KEY RAILS_ENV=production bundle exec rails assets:precompile
 
 # Enable jemalloc for reduced memory usage and latency
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
