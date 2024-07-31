@@ -1,20 +1,25 @@
 services:
   - type: web
-    name: your-app-name
+    name: personal-website
     env: docker
     dockerfilePath: ./Dockerfile
+    buildCommand: docker build --build-arg RAILS_MASTER_KEY=$RAILS_MASTER_KEY -t personal-website .
+    startCommand: docker run --rm -p $PORT:3000 -e DATABASE_URL=$DATABASE_URL -e RAILS_MASTER_KEY=$RAILS_MASTER_KEY personal-website
     envVars:
       - key: RAILS_ENV
         value: production
       - key: DATABASE_URL
         fromDatabase:
-          name: your-database-name
+          name: personal-website-db
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
       - key: RAILS_SERVE_STATIC_FILES
         value: 'true'
+    healthCheckPath: /
+    autoDeploy: true
 
   - type: postgres
-    name: your-database-name
+    name: personal-website
     ipAllowList: []
+    plan: free

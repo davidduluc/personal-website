@@ -3,6 +3,11 @@
 ARG RUBY_VERSION=3.3.4
 FROM ruby:$RUBY_VERSION-slim
 
+ARG RAILS_MASTER_KEY
+ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+
+FROM ruby:$RUBY_VERSION-slim
+
 # Install dependencies
 RUN apt-get update -qq && \
     apt-get install -y --no-install-recommends \
